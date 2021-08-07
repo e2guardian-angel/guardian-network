@@ -1,0 +1,203 @@
+{
+
+  "createAll": [{
+    "sudo": true,
+    "table": "nat",
+    "new_chain": "GUARDIAN-LOCAL"
+  },{
+    "sudo": true,
+    "table": "nat",
+    "new_chain": "GUARDIAN-GATEWAY"
+  },{
+    "sudo": true,
+    "table": "nat",
+    "new_chain": "GUARDIAN-POSTROUTING"
+  },{
+    "sudo": true,
+    "new_chain": "GUARDIAN-FORWARD"
+  },{
+    "sudo": true,
+    "table": "nat",
+    "append": "OUTPUT",
+    "jump": "GUARDIAN-LOCAL"
+  },{
+    "sudo": true,
+    "table": "nat",
+    "append": "PREROUTING",
+    "jump": "GUARDIAN-GATEWAY"
+  },{
+    "sudo": true,
+    "table": "nat",
+    "append": "POSTROUTING",
+    "jump": "GUARDIAN-POSTROUTING"
+  },{
+    "sudo": true,
+    "append": "FORWARD",
+    "jump": "GUARDIAN-FORWARD"
+  }],
+
+  "deleteAll": [{
+    "sudo": true,
+    "table": "nat",
+    "delete": "PREROUTING",
+    "jump": "GUARDIAN-GATEWAY"
+  },{
+    "sudo": true,
+    "table": "nat",
+    "delete": "OUTPUT",
+    "jump": "GUARDIAN-LOCAL"
+  },{
+    "sudo": true,
+    "table": "nat",
+    "delete": "POSTROUTING",
+    "jump": "GUARDIAN-POSTROUTING"
+  },{
+    "sudo": true,
+    "delete": "FORWARD",
+    "jump": "GUARDIAN-FORWARD"
+  },{
+    "sudo": true,
+    "table": "nat",
+    "delete_chain": "GUARDIAN-LOCAL"
+  }, {
+    "sudo": true,
+    "table": "nat",
+    "delete_chain": "GUARDIAN-GATEWAY"
+  },{
+    "sudo": true,
+    "table": "nat",
+    "delete_chain": "GUARDIAN-POSTROUTING"
+  },{
+    "sudo": true,
+    "delete_chain": "GUARDIAN-FORWARD"
+  }],
+
+  "local": [{
+    "sudo": true,
+    "table": "nat",
+    "append": "GUARDIAN-LOCAL",
+    "match": "owner",
+    "uidOwner": "root",
+    "jump": "RETURN"
+  }, {
+    "sudo": true,
+    "table": "nat",
+    "append": "GUARDIAN-LOCAL",
+    "match": "owner",
+    "uidOwner": "31",
+    "jump": "RETURN"
+  },{
+    "sudo": true,
+    "table": "nat",
+    "append": "GUARDIAN-LOCAL",
+    "match": "owner",
+    "uidOwner": "32",
+    "jump": "RETURN"
+  }, {
+    "sudo": true,
+    "table": "nat",
+    "append": "GUARDIAN-LOCAL",
+    "match": "owner",
+    "uidOwner": "48",
+    "jump": "RETURN"
+  }, {
+    "sudo": true,
+    "table": "nat",
+    "append": "GUARDIAN-LOCAL",
+    "protocol": "tcp",
+    "dport": 80,
+    "jump": "REDIRECT",
+    "toPorts": 12345
+  }, {
+    "sudo": true,
+    "table": "nat",
+    "append": "GUARDIAN-LOCAL",
+    "protocol": "tcp",
+    "dport": 443,
+    "jump": "REDIRECT",
+    "toPorts": 12345
+  }, {
+    "sudo": true,
+    "table": "nat",
+    "append": "GUARDIAN-LOCAL",
+    "protocol": "udp",
+    "dport": 53,
+    "jump": "REDIRECT",
+    "toPorts": 9053
+  }, {
+    "sudo": true,
+    "table": "nat",
+    "append": "GUARDIAN-LOCAL",
+    "protocol": "tcp",
+    "dport": 53,
+    "jump": "REDIRECT",
+    "toPorts": 9053
+  }],
+
+  "egress": [{
+    "sudo": true,
+    "table": "nat",
+    "append": "GUARDIAN-POSTROUTING",
+    "out_interface": "WAN",
+    "jump": "MASQUERADE"
+  }],
+
+  "wired": [{
+    "sudo": true,
+    "table": "nat",
+    "append": "GUARDIAN-GATEWAY",
+    "source": "GATEWAY_IP",
+    "jump": "RETURN"
+  },{
+    "sudo": true,
+    "table": "nat",
+    "append": "GUARDIAN-GATEWAY",
+    "in_interface": "LAN",
+    "protocol": "tcp",
+    "dport": 80,
+    "jump": "REDIRECT",
+    "toPorts": 12345
+  },{
+    "sudo": true,
+    "table": "nat",
+    "append": "GUARDIAN-GATEWAY",
+    "in_interface": "LAN",
+    "protocol": "tcp",
+    "dport": 443,
+    "jump": "REDIRECT",
+    "toPorts": 12345
+  },{
+    "sudo": true,
+    "table": "nat",
+    "append": "GUARDIAN-GATEWAY",
+    "in_interface": "LAN",
+    "protocol": "udp",
+    "dport": 53,
+    "jump": "REDIRECT",
+    "toPorts": 9053
+  },{
+    "sudo": true,
+    "table": "nat",
+    "append": "GUARDIAN-GATEWAY",
+    "in_interface": "LAN",
+    "protocol": "tcp",
+    "dport": 53,
+    "jump": "REDIRECT",
+    "toPorts": 9053
+  },{
+    "sudo": true,
+    "append": "GUARDIAN-FORWARD",
+    "in_interface": "WAN",
+    "out_interface": "LAN",
+    "match": "state",
+    "state": "RELATED,ESTABLISHED",
+    "jump": "ACCEPT"
+  },{
+    "sudo": true,
+    "append": "GUARDIAN-FORWARD",
+    "in_interface": "LAN",
+    "out_interface": "WAN",
+    "jump": "ACCEPT"
+  }]
+
+}

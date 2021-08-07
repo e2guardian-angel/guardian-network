@@ -1,0 +1,23 @@
+{
+  "name": "guardian-network",
+  "version": "1.0.0",
+  "description": "Network configurator for e2guardian-angel",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/e2guardian-angel/guardian-network.git"
+  },
+  "author": "Justin Schwartzbeck (justinmschw@gmail.com)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/e2guardian-angel/guardian-network/issues"
+  },
+  "homepage": "https://github.com/e2guardian-angel/guardian-network#readme",
+  "dependencies": {
+    "iptabler": "0.1.0",
+    "network-config": "2.3.0"
+  }
+}
