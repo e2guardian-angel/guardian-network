@@ -17,7 +17,13 @@
   },
   "homepage": "https://github.com/e2guardian-angel/guardian-network#readme",
   "dependencies": {
+    "dnsmasq": "0.0.3",
     "iptabler": "0.1.0",
-    "network-config": "2.3.0"
+    "joi": "17.4.2",
+    "network-config": "2.3.0",
+    "new-netmask": "1.0.6",
+    "shelljs": "0.8.4",
+    "systemctl": "0.2.2",
+    "wireless-tools": "0.19.0"
   }
 }
